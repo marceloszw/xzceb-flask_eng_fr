@@ -1,7 +1,8 @@
-import json
+"""This module does the translation."""
+
+import os
 from ibm_watson import LanguageTranslatorV3
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-import os
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -15,12 +16,14 @@ language_translator = LanguageTranslatorV3(
     authenticator=authenticator)
 language_translator.set_service_url(url)
 
-def englishToFrench(englishText):
-    frenchText = language_translator.translate(
-        text=englishText, model_id='en-fr').get_result()
-    return frenchText
+def english_to_french(english_text):
+    """Translate english to french."""
+    french_text = language_translator.translate(
+        text=english_text, model_id='en-fr').get_result()
+    return french_text.get("translations")[0].get("translation")
 
-def frenchToEnglish(frenchText):
-    englishText = language_translator.translate(
-        text=frenchText, model_id='fr-en').get_result()
-    return englishText
+def french_to_english(french_text):
+    """Translate french to english."""
+    english_text = language_translator.translate(
+        text=french_text, model_id='fr-en').get_result()
+    return english_text.get("translations")[0].get("translation")
